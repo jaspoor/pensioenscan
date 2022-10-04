@@ -1,0 +1,94 @@
+
+html,body { margin: 0px; font-family: Helvetica; font-size: 16px; }
+
+h1 { font-size: 130%; }
+h2 { font-size: 100%; }
+h3 { font-weight: bold; }
+h4 { text-decoration: italic; }
+
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table th, table td { padding: 6px 8px; }
+table th { text-align: left; font-weight: normal;}
+
+.table.table-auto { width: 100%; }
+.table.bordered td { border-bottom: 1px solid #ddd; }
+
+.header { background-color: #bbb; margin-bottom: 20px; padding: 40px; }
+.header .logo { width: 250px; margin-bottom: 20px; }
+
+.container { margin: 40px; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.table-header { background-color: #444; color: #fff; }  
+.table-subheader { background-color: #bbb; color: #444; }  
+
+.border { border: 1px solid #ddd; }
+
+.font-normal { font-weight: normal; }
+.font-bold { font-weight: bold; }
+.font-small { font-size: 75%; }
+
+.p-0 { padding: 0px; }
+.p-5 { padding: 5px; }
+.p-10 { padding: 10px; }
+.p-20 { padding: 20px; }
+.pl-0 { padding-left: 0px; }
+.pl-5 { padding-left: 5px; }
+.pl-10 { padding-left: 10px; }
+.pl-20 { padding-left: 20px; }
+.pr-0 { padding-right: 0px; }
+.pr-5 { padding-right: 5px; }
+.pr-10 { padding-right: 10px; }
+.pr-20 { padding-right: 20px; }
+.pb-0 { padding-bottom: 0px; }
+.pb-5 { padding-bottom: 5px; }
+.pb-10 { padding-bottom: 10px; }
+.pb-20 { padding-bottom: 20px; }
+
+.m-0 { margin: 0px; }
+.m-5 { margin: 5px; }
+.m-10 { margin: 10px; }
+.m-20 { margin: 20px; }
+.ml-0 { margin-left: 0px; }
+.ml-5 { margin-left: 5px; }
+.ml-10 { margin-left: 10px; }
+.ml-20 { margin-left: 20px; }
+.mr-0 { margin-right: 0px; }
+.mr-5 { margin-right: 5px; }
+.mr-10 { margin-right: 10px; }
+.mr-20 { margin-right: 20px; }
+.mb-0 { margin-bottom: 0px; }
+.mb-5 { margin-bottom: 5px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+
+.page-break {
+    page-break-before: always;
+    margin-top: 40px;
+}
+
+.statement-chart {
+    margin-bottom: 10px;
+}
+
+.statement-chart img {
+    width: 100%;
+}
+
+.statement-table {
+    margin-bottom: 20px;
+}
