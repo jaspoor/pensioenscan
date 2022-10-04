@@ -71,7 +71,7 @@ class TaxTable {
 
         $records = [];
         $rowsToSkip = 175;
-        $data = str_getcsv($content, "\r\n");
+        $data = str_getcsv($content, "\n");
         $data = array_splice($data, $rowsToSkip, count($data)-($rowsToSkip+1));
         $data = array_map(function($s) { return str_replace("\n", "", $s); }, $data);
         
