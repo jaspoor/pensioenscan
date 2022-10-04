@@ -13,8 +13,6 @@ use App\Models\TaxTable;
 
 class ReportController extends Controller {
 
-    const DEFAULT_THEME = 'fonteijnenjacobson';
-
     public function index() {
 
         $reports = ReportDetail::all();
@@ -49,11 +47,9 @@ class ReportController extends Controller {
     public function pdf(Request $request, $id) {
         $reportDetail = ReportDetail::find($id);
         
-        $theme = $request->get('theme', self::DEFAULT_THEME);
+        $theme = $request->get('theme', Report::DEFAULT_THEME);
         $report = Report::fromDetail($reportDetail);
         
-        // return view('report/pdf', compact('report', 'theme'));
-
         $pdf = Pdf::loadView('report/pdf', compact('report', 'theme'));
         
         return new Response($pdf->output(), 200, [

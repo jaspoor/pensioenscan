@@ -19,4 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/generate2', function (Request $request) {
+    return response()->json('test');
+});
+
 Route::post('/generate', [ReportController::class, 'generate']);

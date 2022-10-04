@@ -59,6 +59,7 @@
         <td>{{$report->statement1->retirementDate->format('d-m-Y')}}</td>
       </tr>
       @endif
+      @if($report->statement2)
       <tr>
         <th class="pl-0">Geboortedatum {{$report->statement2->fullName}}:</th>
         <td>{{$report->statement2->birthdayDate->format('d-m-Y')}}</td>
@@ -72,6 +73,7 @@
         <th class="pl-0">Gewenste pensioendatum {{$report->statement2->fullName}}:</th>
         <td>{{$report->statement2->retirementDate->format('d-m-Y')}}</td>
       </tr>
+      @endif
       @endif
     </table>
 

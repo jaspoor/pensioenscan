@@ -28,6 +28,7 @@ class ReportRequest extends FormRequest
             'field:comp-l8imhl32' => 'required',
             'field:comp-l8ijfnkh' => 'required',
             'field:comp-l8ikjksx' => 'required',
+            'theme' => 'optional'
         ];
     }
 

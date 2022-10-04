@@ -13,7 +13,7 @@ class ReportDetail extends Model
 
     public function getRetirementDate(): \DateTime
     {
-        return \DateTime::createFromFormat("Y-m-d", $this->retirementDate);
+        return $this->retirementDate instanceof \DateTime ? $this->retirementDate : \DateTime::createFromFormat("Y-m-d", $this->retirementDate);
     }
 
     public function getGrossWage(): int
