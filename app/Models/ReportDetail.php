@@ -11,9 +11,10 @@ class ReportDetail extends Model
 
     protected $fillable = ['grossWage', 'retirementDate', 'xml1', 'xml2'];
 
-    public function getRetirementDate(): \DateTime
+    public function getRetirementDate(): ?\DateTime
     {
-        return \DateTime::createFromFormat("Y-m-d", $this->retirementDate);
+      $date = \DateTime::createFromFormat("Y-m-d", $this->retirementDate);
+      return $date ?: null;
     }
 
     public function getGrossWage(): int

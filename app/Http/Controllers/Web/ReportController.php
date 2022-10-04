@@ -48,7 +48,7 @@ class ReportController extends Controller {
     
     public function pdf(Request $request, $id) {
         $reportDetail = ReportDetail::find($id);
-        
+
         $theme = $request->get('theme', self::DEFAULT_THEME);
         $report = Report::fromDetail($reportDetail);
         

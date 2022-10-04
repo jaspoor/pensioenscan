@@ -21,7 +21,12 @@ class Report
         $report = new Report();       
         $report->statement1 = RetirementStatement::fromXml($reportDetail->xml1);
         $report->statement2 = RetirementStatement::fromXml($reportDetail->xml2);
-        $report->statement1->addGrossWage($reportDetail->getGrossWage(), $reportDetail->getRetirementDate());
+
+        if ($reportDetail->getRetirementDate()) {
+          $report->statement1->setRetirementDate($reportDetail->getRetirementDate());
+        }
+      
+        $report->statement1->addGrossWage($reportDetail->getGrossWage());
 
         $report->chartData = $report->buildChartData();
 
