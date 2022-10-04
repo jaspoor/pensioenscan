@@ -181,7 +181,7 @@ class RetirementStatement
         $this->incomePerDate = $incomePerDate;
     }
     
-    public function addGrossWage(int $grossWage, \DateTime $retirementDate): void
+    public function addGrossWage(int $grossWage): void
     {
         $this->grossWage = $grossWage;
 
@@ -197,7 +197,7 @@ class RetirementStatement
         foreach ($incomePerDate as $dateKey => $incomeData) {
             $date = \DateTime::createFromFormat('Y-m-d', $dateKey);
             
-            if ($date < $retirementDate) {
+            if ($date < $this->retirementDate) {
                 $incomePerDate[$dateKey]['wage'] = $this->grossWage;
             }
         }
@@ -205,12 +205,12 @@ class RetirementStatement
         // Add income 'column' at exact moment of retirement
         foreach ($incomePerDate as $dateKey => $funds) {
             $date = DateTime::createFromFormat('Y-m-d', $dateKey);
-            if ($date < $retirementDate) {
-                $retirementDateKey = $retirementDate->format('Y-m-d');
+            if ($date < $this->retirementDate) {
+                $retirementDateKey = $this->retirementDate->format('Y-m-d');
                 $incomePerDate[$retirementDateKey] = $funds;
-                $incomePerDate[$retirementDateKey]['age'] = $this->getAgeAt($retirementDate);
+                $incomePerDate[$retirementDateKey]['age'] = $this->getAgeAt($this->retirementDate);
                 unset($incomePerDate[$retirementDateKey]['wage']);
-                $incomePerDate[$retirementDateKey]['retirement'] = true;                
+                $incomePerDate[$retirementDateKey]['retirement'] = true;
             }
         }
 

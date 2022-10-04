@@ -1,0 +1,6 @@
+run = "php artisan serve --host=0.0.0.0 --port=80"
+
+#[nix]
+
+#[nix.channel]
+#channel = "stable-22_05"
