@@ -9,7 +9,7 @@ class ReportDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['grossWage', 'retirementDate', 'xml1', 'xml2'];
+    protected $fillable = ['grossWage', 'retirementDate', 'fullName', 'xml1', 'xml2'];
 
     public function getRetirementDate(): ?\DateTime
     {

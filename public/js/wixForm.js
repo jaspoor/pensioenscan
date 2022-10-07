@@ -1,26 +1,3 @@
-(function(exports, d) {
-  function domReady(fn, context) {
-
-    function onReady(event) {
-      d.removeEventListener("DOMContentLoaded", onReady);
-      fn.call(context || exports, event);
-    }
-
-    function onReadyIe(event) {
-      if (d.readyState === "complete") {
-        d.detachEvent("onreadystatechange", onReadyIe);
-        fn.call(context || exports, event);
-      }
-    }
-
-    d.addEventListener && d.addEventListener("DOMContentLoaded", onReady) ||
-    d.attachEvent      && d.attachEvent("onreadystatechange", onReadyIe);
-  }
-
-  
-  exports.domReady = domReady;
-})(window, document);
-
 const SERVER_URL = 'https://pensioenscan.jasperspoor.repl.co';
 const API_URL = SERVER_URL + '/api/generate';
 const FORM_ID = "#comp-l8ijfnio";
@@ -42,8 +19,6 @@ function submitForm() {
   data.append('field:comp-l8imhl32', $(RETIREMENT_DATE_ID).val());
   data.append('field:comp-l8ikjksx', $(FILE_UPLOAD_ID)[0].files[0]);
   data.append('field:comp-l8ijfnkh', $(EMAIL_ID).val());
-
-  data.forEach((a,b) => console.log(a,b));
        
   $.ajax({
     url:         API_URL,
@@ -126,5 +101,6 @@ function setupForm() {
   });
 }
 
-
-domReady(() => { setTimeout(setupForm, 1000); });
+$(function() {
+  setTimeout(setupForm, 1000); 
+});

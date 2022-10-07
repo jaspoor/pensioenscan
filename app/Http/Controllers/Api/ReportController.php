@@ -28,9 +28,9 @@ class ReportController extends Controller
 
       $retirementDate = \DateTime::createFromFormat('d/m/Y', $retirementDate);
 
-      $xml = simplexml_load_file($xml1);
+      $xml = simplexml_load_file(storage_path('app/' . $xml1));
       $fullName = (string) $xml->Gegevens->Naam;
-      
+
       $reportDetail = new ReportDetail(compact('grossWage', 'retirementDate', 'fullName', 'xml1'));
       
       $report = Report::fromDetail($reportDetail);
