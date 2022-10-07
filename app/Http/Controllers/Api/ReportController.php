@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ReportRequest;
 use App\Models\Report;
 use App\Models\ReportDetail;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ReportController extends Controller
@@ -18,33 +18,34 @@ class ReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function generate(ReportRequest $request)
-    {
-        try {
-            $theme = $request->get('theme', Report::DEFAULT_THEME);
-            $retirementDate = $request->get('field:comp-l8imhl32');
-            $grossWage = $request->get('field:comp-l8imfdku');
-            $xml1 = $request->file('field:comp-l8ikjksx')->store('xml');
-            $emailAddress = $request->file('field:comp-l8ikjksx');
+    public function generate(Request $request)
+    {            
+      $theme = $request->get('theme', Report::DEFAULT_THEME);
+      $grossWage = $request->get('field:comp-l8imfdku');
+      $retirementDate = $request->get('field:comp-l8imhl32');
+      $xml1 = $request->file('field:comp-l8ikjksx')->store('xml');
+      $emailAddress = $request->get('field:comp-l8ijfnkh');
 
-            $retirementDate = \DateTime::createFromFormat('d/m/Y', $retirementDate);
+      $retirementDate = \DateTime::createFromFormat('d/m/Y', $retirementDate);
 
-            $reportDetail = new ReportDetail(compact('grossWage', 'retirementDate', 'xml1'));
-            $reportDetail->save();
+      $xml = simplexml_load_file($xml1);
+      $fullName = (string) $xml->Gegevens->Naam;
+      
+      $reportDetail = new ReportDetail(compact('grossWage', 'retirementDate', 'fullName', 'xml1'));
+      
+      $report = Report::fromDetail($reportDetail);
 
-            $report = Report::fromDetail($reportDetail);
+      $filename = uniqid() . '.pdf';
+      $pdf = Pdf::loadView('report/pdf', compact('report', 'theme'));
+      $pdf->save(storage_path('app/pdf/' . $filename));
 
-            $filename = 'app/pdf/' . uniqid() . '.pdf';
-            $pdf = Pdf::loadView('report/pdf', compact('report', 'theme'));
-            $pdf->save(storage_path($filename));
-
-          return response()->json([
-            'id' => $filename,
-            'email' => $emailAddress
-          ], 200);
-
-        } catch(\Exception $exception) {
-            throw new HttpException(400, "Invalid data - {$exception->getMessage()}");
-        }
+      $reportDetail->filename = $filename;
+      $reportDetail->save();
+      
+      return response()->json([
+        'downloadUrl' => url(sprintf('/report/download/%s', $filename))
+      ], 200, [
+        'Access-Control-Allow-Origin' => '*',
+      ]);
     }
 }

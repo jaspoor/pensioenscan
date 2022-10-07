@@ -32,9 +32,13 @@ class ReportController extends Controller {
 
       $retirementDate = \DateTime::createFromFormat('d/m/Y', $request->get('retirementDate'));
 
+      $xml = simplexml_load_file($xml1);
+      $fullName = (string) $xml->Gegevens->Naam;
+
       $report = new ReportDetail([
         'grossWage' => $request->get('grossWage'),
         'retirementDate' => $retirementDate,
+        'fullName' => $fullName,
         'xml1' => $xml1,
         'xml2' => $xml2 
       ]);
@@ -44,7 +48,7 @@ class ReportController extends Controller {
       return redirect('/report');
     }
     
-    public function pdf(Request $request, $id) {
+    public function generate(Request $request, $id) {
         $reportDetail = ReportDetail::find($id);
         
         $theme = $request->get('theme', Report::DEFAULT_THEME);
@@ -56,5 +60,12 @@ class ReportController extends Controller {
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="report.pdf"'
         ]);
+    }
+
+    public function pdf(Request $request, $filename) {
+       
+        $path = storage_path('app/pdf/' . $filename);
+      
+        return response()->download($path);
     }
 }

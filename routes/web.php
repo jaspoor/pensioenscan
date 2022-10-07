@@ -21,4 +21,5 @@ Route::get('/', function() {
 Route::get('/report', [ReportController::class, 'index']);
 Route::get('/report/new', [ReportController::class, 'new']);
 Route::post('/report/add', [ReportController::class, 'add']);
-Route::get('/report/{id}/pdf', [ReportController::class, 'pdf']);
+Route::get('/report/{id}/generate', [ReportController::class, 'generate']);
+Route::get('/report/download/{filename}', [ReportController::class, 'pdf']);
