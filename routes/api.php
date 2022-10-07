@@ -19,13 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/generate2', function (Request $request) {
-    Log::debug('Request received');
-  
-    return response()->json('test', 200, [
-        'Access-Control-Allow-Origin' => '*',
-        'X-Test' => 'test'
-    ]);
-});
-
 Route::post('/generate', [ReportController::class, 'generate']);

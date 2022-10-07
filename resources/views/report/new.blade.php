@@ -21,11 +21,15 @@
     </div>
     <div class="mb-5">
       <label class="inline-block w-64">Pensioenoverzicht XML</label>
-      <input type="file" class="border px-4 py-2" name="xml1" required="required">
+      <input type="file" class="border px-4 py-2" name="xml1" required="required" accept=".xml">
     </div>
     <div class="mb-5">
       <label class="inline-block w-64">Pensioenoverzicht XML partner (optioneel)</label>
-      <input type="file" class="border px-4 py-2" name="xml2">
+      <input type="file" class="border px-4 py-2" name="xml2" accept=".xml">
+    </div>
+    <div class="mb-5">
+      <label class="inline-block w-64">Email address</label>
+      <input type="email" class="border px-4 py-2" name="emailAddress" required="required">
     </div>
 
     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Toevoegen</button>

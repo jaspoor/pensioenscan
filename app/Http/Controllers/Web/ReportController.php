@@ -27,45 +27,48 @@ class ReportController extends Controller {
 
     public function add(Request $request) {
 
-      $xml1 = $request->xml1->store('xml');
-      $xml2 = $request->xml2->store('xml');
+        $theme = $request->get('theme', Report::DEFAULT_THEME);
 
-      $retirementDate = \DateTime::createFromFormat('d/m/Y', $request->get('retirementDate'));
+        $grossWage = $request->get('grossWage');
+        $retirementDate = \DateTime::createFromFormat('d/m/Y', $request->get('retirementDate'));
+        $xml1 = $request->xml1->store('xml');
+        $xml2 = $request->xml2->store('xml');
+        $emailAddress = $request->get('emailAddress');
 
-      $xml = simplexml_load_file($xml1);
-      $fullName = (string) $xml->Gegevens->Naam;
+        $xml = simplexml_load_file(storage_path('app/' . $xml1));
+        $fullName = (string) $xml->Gegevens->Naam;
 
-      $report = new ReportDetail([
-        'grossWage' => $request->get('grossWage'),
-        'retirementDate' => $retirementDate,
-        'fullName' => $fullName,
-        'xml1' => $xml1,
-        'xml2' => $xml2 
-      ]);
+        $reportDetail = new ReportDetail(compact('grossWage', 'retirementDate', 'emailAddress', 'fullName', 'xml1', 'xml2'));
 
-      $report->save();
+        $report = Report::fromDetail($reportDetail);
 
-      return redirect('/report');
+        $reportDetail->filename = uniqid() . '.pdf';
+        $pdf = Pdf::loadView('report/pdf', compact('report', 'theme'));
+        $pdf->save(storage_path('app/pdf/' . $reportDetail->filename));
+
+        $reportDetail->save();
+
+        return redirect('/report');
     }
     
-    public function generate(Request $request, $id) {
-        $reportDetail = ReportDetail::find($id);
-        
+    public function rebuild(Request $request, $id) {
         $theme = $request->get('theme', Report::DEFAULT_THEME);
+        $reportDetail = ReportDetail::find($id);
+
         $report = Report::fromDetail($reportDetail);
-        
+
+        $reportDetail->filename = uniqid() . '.pdf';
         $pdf = Pdf::loadView('report/pdf', compact('report', 'theme'));
+        $pdf->save(storage_path('app/pdf/' . $reportDetail->filename));
+        $reportDetail->save();
         
-        return new Response($pdf->output(), 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="report.pdf"'
-        ]);
+        return redirect('report/index');
     }
 
-    public function pdf(Request $request, $filename) {
+    public function download(Request $request, $filename) {
        
         $path = storage_path('app/pdf/' . $filename);
-      
-        return response()->download($path);
+        
+        return response()->download($path, $filename, [], 'inline');
     }
 }

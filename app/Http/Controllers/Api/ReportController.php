@@ -31,19 +31,18 @@ class ReportController extends Controller
       $xml = simplexml_load_file(storage_path('app/' . $xml1));
       $fullName = (string) $xml->Gegevens->Naam;
 
-      $reportDetail = new ReportDetail(compact('grossWage', 'retirementDate', 'fullName', 'xml1'));
+      $reportDetail = new ReportDetail(compact('grossWage', 'retirementDate', 'emailAddress', 'fullName', 'xml1'));
       
       $report = Report::fromDetail($reportDetail);
 
-      $filename = uniqid() . '.pdf';
+      $reportDetail->filename = uniqid() . '.pdf';
       $pdf = Pdf::loadView('report/pdf', compact('report', 'theme'));
-      $pdf->save(storage_path('app/pdf/' . $filename));
+      $pdf->save(storage_path('app/pdf/' . $reportDetail->filename));
 
-      $reportDetail->filename = $filename;
       $reportDetail->save();
       
       return response()->json([
-        'downloadUrl' => url(sprintf('/report/download/%s', $filename))
+        'downloadUrl' => url(sprintf('/report/download/%s', $reportDetail->filename))
       ], 200, [
         'Access-Control-Allow-Origin' => '*',
       ]);

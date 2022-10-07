@@ -21,9 +21,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-      <div class="p-10">
-          @yield('content')
-      </div>
+      @yield('content')
 
       <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
   </body>
