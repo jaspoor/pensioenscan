@@ -42,7 +42,7 @@ class ReportController extends Controller
       $reportDetail->save();
       
       return response()->json([
-        'downloadUrl' => url(sprintf('/report/download/%s', $reportDetail->filename))
+        'downloadUrl' => url(sprintf('/report/%d/pdf', $reportDetail->id))
       ], 200, [
         'Access-Control-Allow-Origin' => '*',
       ]);
