@@ -22,4 +22,6 @@ Route::get('/report', [ReportController::class, 'index']);
 Route::get('/report/new', [ReportController::class, 'new']);
 Route::post('/report/add', [ReportController::class, 'add']);
 Route::get('/report/{id}/rebuild', [ReportController::class, 'rebuild']);
-Route::get('/report/download/{filename}', [ReportController::class, 'download']);
+Route::get('/report/{id}/pdf', [ReportController::class, 'downloadPdf']);
+Route::get('/report/{id}/xml1', [ReportController::class, 'downloadXml1']);
+Route::get('/report/{id}/xml2', [ReportController::class, 'downloadXml2']);

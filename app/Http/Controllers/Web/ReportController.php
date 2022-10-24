@@ -62,13 +62,33 @@ class ReportController extends Controller {
         $pdf->save(storage_path('app/pdf/' . $reportDetail->filename));
         $reportDetail->save();
         
-        return redirect('report/index');
+        return redirect('report');
     }
 
-    public function download(Request $request, $filename) {
+    public function downloadPdf(Request $request, $id) {
        
-        $path = storage_path('app/pdf/' . $filename);
-        
-        return response()->download($path, $filename, ['Content-Type' => 'application/pdf'], 'inline');
+      $reportDetail = ReportDetail::find($id);
+      $path = storage_path('app/pdf/' . $reportDetail->filename);
+      $filename = sprintf('report_%d.pdf', $reportDetail->id);
+    
+      return response()->download($path, $reportDetail->filename, ['Content-Type' => 'application/pdf'], 'inline');
+    }
+  
+    public function downloadXml1(Request $request, $id) {
+
+      $reportDetail = ReportDetail::find($id);
+      $path = storage_path('app/' . $reportDetail->xml1);
+      $filename = $reportDetail->id . '_1.xml';
+    
+      return response()->download($path, $filename, ['Content-Type' => 'application/xml']);
+    }
+  
+    public function downloadXml2(Request $request, $id) {
+       
+      $reportDetail = ReportDetail::find($id);
+      $path = storage_path('app/' . $reportDetail->xml2);
+      $filename = $reportDetail->id . '_2.xml';
+    
+      return response()->download($path, $filename, ['Content-Type' => 'application/xml']);
     }
 }

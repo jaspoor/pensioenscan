@@ -19,7 +19,7 @@ class Report
     {        
         $report = new Report();       
         $report->statement1 = RetirementStatement::fromXml($reportDetail->xml1);
-
+      
         if ($reportDetail->getRetirementDate()) {
             $report->statement1->setRetirementDate($reportDetail->getRetirementDate());
         }
@@ -30,6 +30,7 @@ class Report
             $report->statement2 = RetirementStatement::fromXml($reportDetail->xml2);
         }
 
+      
         $report->chartData = $report->buildChartData();
 
         return $report;

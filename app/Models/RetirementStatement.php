@@ -162,11 +162,13 @@ class RetirementStatement
         $taxTable = TaxTable::load();
 
         $incomePerDate = $this->incomePerDate;
+
         foreach ($incomePerDate as $dateKey => $funds) {
             $totalGross = 0;
             foreach ($funds as $fundName => $grossAmount) {
-                if (in_array($fundName, ['age', 'AOW', 'total_gross', 'total_tax', 'total_nett'])) continue;
+                if (in_array($fundName, ['age', 'total_gross', 'total_tax', 'total_nett', 'retirement'])) continue;
                 $totalGross += $grossAmount;
+
             }
 
             $isRetired = DateTime::createFromFormat('Y-m-d', $dateKey) >= $this->aowDate;
@@ -190,6 +192,7 @@ class RetirementStatement
         $today = now();
         $dateKey = $today->format('Y-m-d');        
 
+        $aowGross = null;
         $incomePerDate[$dateKey]['age'] = $this->age;
         $incomePerDate[$dateKey]['wage'] = $this->grossWage;
 
@@ -199,6 +202,9 @@ class RetirementStatement
             
             if ($date < $this->retirementDate) {
                 $incomePerDate[$dateKey]['wage'] = $this->grossWage;
+            }
+            if (isset($incomePerDate[$dateKey]['AOW'])) {
+              $aowGross = $incomePerDate[$dateKey]['AOW'];
             }
         }
         
@@ -210,6 +216,9 @@ class RetirementStatement
                 $incomePerDate[$retirementDateKey] = $funds;
                 $incomePerDate[$retirementDateKey]['age'] = $this->getAgeAt($this->retirementDate);
                 unset($incomePerDate[$retirementDateKey]['wage']);
+                if ($aowGross) {
+                  $incomePerDate[$retirementDateKey]['AOW'] = $aowGross;
+                }
                 $incomePerDate[$retirementDateKey]['retirement'] = true;
             }
         }
@@ -225,13 +234,12 @@ class RetirementStatement
         if (empty($detailXml->AOW))
             return;
 
-        $fundName = 'AOW';
         $grossAmount = (int) $detailXml->AOW->AOWDetailsOpbouw->TeBereikenAlleenstaand;
         if ($this->hasPartner) {
             $grossAmount = (int) $detailXml->AOW->AOWDetailsOpbouw->TeBereikenSamenwonend;
         }
-
-        $incomePerDate[$dateKey][$fundName] = $grossAmount / 12;
+        
+        $incomePerDate[$dateKey]['AOW'] = $grossAmount / 12;
     }
 
     
