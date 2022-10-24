@@ -6,6 +6,7 @@ const UPLOAD_BUTTON_ID = "#comp-l8ikjksx div[role=\"button\"]";
 const GROSS_WAGE_ID = "#input_comp-l8imfdku";
 const RETIREMENT_DATE_ID = "#input_comp-l8imhl32";
 const FILE_UPLOAD_ID = "#fileInputcomp-l8ikjksx";
+const FILE_HELP_TEXT = "#comp-l8inr5y0";
 const EMAIL_ID = "#input_comp-l8ijfnkh";
 const SUBMIT_BUTTON_ID = "#comp-l8ijfnl4 button"; 
 const SUCCESS_MSG_ID = "#comp-l8yhjree";
@@ -51,6 +52,12 @@ function setupUploadButton()
   let uploadButton = $(UPLOAD_BUTTON_ID);
     
   fileInput.attr('accept', '.xml');
+  
+  fileInput.on('change',function(){
+    var filename = $(this).val().replace(/.*(\/|\\)/, '');
+    $(FILE_HELP_TEXT).html(filename);
+  });
+  
   uploadButton.click(function() { fileInput.click() });
 }
 
@@ -99,8 +106,10 @@ function setupForm() {
     showLoadingAnimation();
     submitForm(); 
   });
+
+  console.log('Wix form setup completed');
 }
 
 $(function() {
-  setTimeout(setupForm, 1000); 
+  setTimeout(setupForm, 1500); 
 });

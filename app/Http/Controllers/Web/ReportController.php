@@ -69,6 +69,6 @@ class ReportController extends Controller {
        
         $path = storage_path('app/pdf/' . $filename);
         
-        return response()->download($path, $filename, [], 'inline');
+        return response()->download($path, $filename, ['Content-Type' => 'application/pdf'], 'inline');
     }
 }
